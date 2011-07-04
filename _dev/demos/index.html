@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+    <title>Reservations</title>  
+	<link rel="stylesheet" type="text/css" media="all" href="css/jquery-easyvalidate.css" />
+</head>  
+  
+<body>  
+    <h1>Reservations</h1>  
+  
+    <p>Please submit your Reservation Request via our online form. Alternatively, please phone us on xxx.</p>  
+  
+    <p class="form_tip">&nbsp;</p>  
+    <form action="mail.php" method="post" class="validate">   
+        <fieldset>   
+            <p>   
+                <label for="date">Date / Time *</label><input type="text" name="date" id="date" /> /   
+                <input type="text" name="time" id="time" />  
+            </p>   
+  
+            <p>   
+                <label for="number">Number of People *</label><input type="text" name="number" id="number" /> <span>(e.g. 4)</span>  
+            </p>   
+  
+            <p>   
+                <label for="name">Name *</label><input type="text" name="name" id="name" /> <span>(e.g. Tony)</span>  
+            </p>   
+  
+            <p>   
+                <label for="phone">Phone Number *</label><input type="text" name="phone" id="phone" /> <span>(e.g. 0458 798754)</span>  
+            </p>   
+  
+            <p>   
+                <label for="email" id="label_email">Email Address</label><input type="text" name="email" id="email" />  
+            </p>   
+  
+            <p>   
+                <label for="made" class="fs11">Preferred contact method<br />if Reservation made</label><input type="radio" name="made" id="made_phone" checked="checked" value="Phone" />Phone  
+                <input type="radio" name="made" id="made_email" value="Email" />Email  
+            </p>   
+  
+            <p>   
+                <label for="not_made" class="fs11">Preferred contact method if Reservation<br /><strong>NOT</strong> available at requested Date / Time</label><input type="radio" name="not_made" id="not_made_phone" checked="checked" value="Phone" />Phone  
+                <input type="radio" name="not_made" id="not_made_email" value="Email" />Email  
+            </p>   
+  
+            <p>   
+                <label for="info">Further Infomation</label><textarea name="info" id="info" rows="5" cols="40"></textarea>  
+            </p>  
+  
+            <p><input type="submit" value="Submit" id="submit" class="submit" /></p>  
+  
+        </fieldset>  
+    </form>  
+  
+  
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>  
+    <script type="text/javascript" src="js/jquery-easyvalidate.js"></script>  
+    <script type="text/javascript">             
+    /* <![CDATA[ */ 
+        $(function(){ 
+            $(".validate").easyvalidate({ 
+                // date is required and like 11-06-2011 as default, whose reg was rewriten below like 11-06-11 as Date: /^\d{2}-\d{2}-\d{2}$/ 
+                config: {"#date":{ 
+                    required: true, 
+                    reg: "Date" 
+                // time is required and like 11:30 as default 
+                },"#time":{ 
+                    required: true, 
+                    reg: "Time" 
+                // numver is required and reg was defined below like 4, 12 or 3-4 as number: /^\d{1,2}(-\d{1,2})?$/ 
+                },"#number":{ 
+                    required: true, 
+                    reg: "number" 
+                // name is required and like tony as default 
+                },"#name":{ 
+                    required: true, 
+                    reg: "Name" 
+                // phone is required and like 0458 798754 as default 
+                },"#phone":{ 
+                    required: true, 
+                    reg: "Phone" 
+                // phone is NOT required and like xxx@xxx.com as default 
+                },"#email":{ 
+                    reg: "Email" 
+                }}, 
+                // define reg number 
+                number: /^\d{1,2}(-\d{1,2})?$/, 
+                // rewrite default reg Date 
+                Date: /^\d{2}-\d{2}-\d{2}$/ 
+            }); 
+ 
+            // if at least one of the answer is email, then email should become required 
+            $("input[name=made],input[name=not_made]").click(function(){ 
+                var email = $("#email"); 
+                if (email.val()=="") { 
+                    if ($(this).filter(":checked").val() == "Email") { 
+                        // change email as required 
+                        $.fn.easyvalidate.defaults.config["#email"].required = true; 
+                        // add error style 
+                        $.easyvalidate.addError(email); 
+                        $("#label_email").html("Email Address *"); 
+                    } else if ($("input[name=made]:checked").val()!="Email" && $("input[name=not_made]:checked").val()!="Email") { 
+                        // change email back as not required 
+                        $.fn.easyvalidate.defaults.config["#email"].required = false; 
+                        // clear error style 
+                        $.easyvalidate.deleteError(email); 
+                        // check if clear the error tips 
+                        $.easyvalidate.checkError($(".validate")); 
+                        $("#label_email").html("Email Address"); 
+                    } 
+                } 
+            }); 
+        }) 
+    /* ]]> */  
+    </script>  
+</body>  
+</html>  
