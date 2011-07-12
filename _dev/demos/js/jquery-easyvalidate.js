@@ -5,7 +5,7 @@
 $.extend({
     easyvalidate: {
         checkError: function(dom) {
-            if (dom.find(".error").length == 0) {
+            if (!dom.find(".error").length) {
                 $(".form_tip").css("visibility", "hidden").html("&nbsp;");
                 return true
             }
@@ -25,7 +25,7 @@ $.extend({
         $.fn.easyvalidate.defaults = {
             Name: /^\D{2,15}$/,
             Phone: /^[\d -]{8,12}$/,
-            Email: /^([a-zA-Z0-9_\.\-])+\@([a-zA-Z0-9\.\-])+(\.[a-zA-Z]{2,3})+$/,
+            Email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
             Time: /^[0-2]{1}\d{1}:\d{2}$/,
             Date: /^\d{2}-\d{2}-\d{4}/
         };
